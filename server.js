@@ -26,7 +26,6 @@ const Notice =  require('./models/Notice');
 const Client_Raffle = require('./models/Client_Raffle');
 const Raffle = require('./models/Raffle');
 
-
 const app = express();
 
 app.use(express.json());
@@ -36,6 +35,10 @@ app.use(passport.initialize());
 // Rutas
 app.use('/auth', authRoutes);    // Configura las rutas de autenticación JWT
 app.use('/oauth', oauthRoutes);  // Configura las rutas de autenticación OAuth
+
+// Importa y configura la nueva ruta para listar el menú
+const menuRoutes = require('./routes/menuRoutes'); // Importa el archivo de rutas del menú
+app.use('/menu', menuRoutes); // Monta las rutas de menú
 
 // Sincronización de la base de datos
 const syncDatabase = async () => {
