@@ -5,13 +5,14 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 require('./config/passport'); // Importa la configuración de Passport
 const cors = require('cors');
+const path = require('path');
+
 
 const authRoutes = require('./routes/auth');    // Importa el archivo auth.js
 const oauthRoutes = require('./routes/oauth');  // Importa el archivo oauth.js
+const adminRoutes = require('./routes/admin');  // Importa el archivo admin.js
 const categoryRoutes = require('./routes/Category'); // Importa las rutas de categoría
 const subcategoryRouter = require('./routes/subcategory'); // Importa el router de subcategorías
-
-
 
 
 
@@ -38,6 +39,9 @@ const Raffle = require('./models/Raffle');
 
 const app = express();
 
+// Configura los archivos estáticos
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Configuración de CORS
 app.use(cors({
     origin: 'http://localhost:3000', // Cambia esto por el dominio de tu frontend
@@ -52,6 +56,7 @@ app.use(passport.initialize());
 // Rutas
 app.use('/auth', authRoutes);    // Configura las rutas de autenticación JWT
 app.use('/oauth', oauthRoutes);  // Configura las rutas de autenticación OAuth
+app.use('/admin', adminRoutes);  // Configura las rutas de administrador
 app.use('/categories', categoryRoutes);
 app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
 
