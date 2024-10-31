@@ -4,6 +4,7 @@ const sequelize = require('./db'); // Asegúrate de que la ruta sea correcta
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 require('./config/passport'); // Importa la configuración de Passport
+const cors = require('cors');
 
 const authRoutes = require('./routes/auth');    // Importa el archivo auth.js
 const oauthRoutes = require('./routes/oauth');  // Importa el archivo oauth.js
@@ -38,13 +39,12 @@ const Raffle = require('./models/Raffle');
 
 const app = express();
 
-const corsOptions = {
-    origin: 'http://localhost:3000', // Cambia esto al origen de tu aplicación frontend
-    credentials: true, // Permitir el envío de cookies y credenciales
-};
+// Configuración de CORS
+app.use(cors({
+    origin: 'http://localhost:3000', // Cambia esto por el dominio de tu frontend
+    credentials: true, // Para permitir el envío de cookies
+  }));
 
-
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
