@@ -4,9 +4,18 @@ const sequelize = require('./db'); // Asegúrate de que la ruta sea correcta
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 require('./config/passport'); // Importa la configuración de Passport
+const cors = require('cors');
+const path = require('path');
+
 
 const authRoutes = require('./routes/auth');    // Importa el archivo auth.js
 const oauthRoutes = require('./routes/oauth');  // Importa el archivo oauth.js
+const adminRoutes = require('./routes/admin');  // Importa el archivo admin.js
+const categoryRoutes = require('./routes/Category'); // Importa las rutas de categoría
+const subcategoryRouter = require('./routes/subcategory'); // Importa el router de subcategorías
+
+
+
 
 // Importa los modelos aquí
 const User = require('./models/User');
@@ -26,15 +35,34 @@ const Notice =  require('./models/Notice');
 const Client_Raffle = require('./models/Client_Raffle');
 const Raffle = require('./models/Raffle');
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 26fd575b460ecb742e10ef1aca22aad98e23b4a9
 const app = express();
+
+// Configura los archivos estáticos
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Configuración de CORS
+app.use(cors({
+    origin: 'http://localhost:3000', // Cambia esto por el dominio de tu frontend
+    credentials: true, // Para permitir el envío de cookies
+  }));
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
+
 // Rutas
 app.use('/auth', authRoutes);    // Configura las rutas de autenticación JWT
 app.use('/oauth', oauthRoutes);  // Configura las rutas de autenticación OAuth
+app.use('/admin', adminRoutes);  // Configura las rutas de administrador
+app.use('/categories', categoryRoutes);
+app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
+
 
 // Importa y configura la nueva ruta para listar el menú
 const menuRoutes = require('./routes/menuRoutes'); // Importa el archivo de rutas del menú
