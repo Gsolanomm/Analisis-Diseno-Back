@@ -8,6 +8,13 @@ const cors = require('cors');
 
 const authRoutes = require('./routes/auth');    // Importa el archivo auth.js
 const oauthRoutes = require('./routes/oauth');  // Importa el archivo oauth.js
+const categoryRoutes = require('./routes/Category'); // Importa las rutas de categoría
+const subcategoryRouter = require('./routes/subcategory'); // Importa el router de subcategorías
+
+
+
+
+
 
 // Importa los modelos aquí
 const User = require('./models/User');
@@ -28,6 +35,7 @@ const Client_Raffle = require('./models/Client_Raffle');
 const Raffle = require('./models/Raffle');
 
 
+
 const app = express();
 
 // Configuración de CORS
@@ -40,9 +48,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
+
 // Rutas
 app.use('/auth', authRoutes);    // Configura las rutas de autenticación JWT
 app.use('/oauth', oauthRoutes);  // Configura las rutas de autenticación OAuth
+app.use('/categories', categoryRoutes);
+app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
+
 
 // Sincronización de la base de datos
 const syncDatabase = async () => {

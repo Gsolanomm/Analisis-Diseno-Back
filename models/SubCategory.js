@@ -10,7 +10,12 @@ const SubCategory = sequelize.define('SubCategory', {
         onDelete: 'CASCADE'
     },
     name: { type: DataTypes.STRING, allowNull: false, unique: true }
+
+
+    
 });
+
+
 
 Category.hasMany(SubCategory, { foreignKey: 'idCategory' });
 SubCategory.belongsTo(Category, { foreignKey: 'idCategory' });
