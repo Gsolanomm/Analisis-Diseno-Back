@@ -35,8 +35,11 @@ const Notice =  require('./models/Notice');
 const Client_Raffle = require('./models/Client_Raffle');
 const Raffle = require('./models/Raffle');
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> 26fd575b460ecb742e10ef1aca22aad98e23b4a9
 const app = express();
 
 // Configura los archivos estáticos
@@ -60,6 +63,10 @@ app.use('/admin', adminRoutes);  // Configura las rutas de administrador
 app.use('/categories', categoryRoutes);
 app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
 
+
+// Importa y configura la nueva ruta para listar el menú
+const menuRoutes = require('./routes/menuRoutes'); // Importa el archivo de rutas del menú
+app.use('/menu', menuRoutes); // Monta las rutas de menú
 
 // Sincronización de la base de datos
 const syncDatabase = async () => {
