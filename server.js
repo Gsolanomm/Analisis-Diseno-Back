@@ -35,11 +35,6 @@ const Notice =  require('./models/Notice');
 const Client_Raffle = require('./models/Client_Raffle');
 const Raffle = require('./models/Raffle');
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 26fd575b460ecb742e10ef1aca22aad98e23b4a9
 const app = express();
 
 // Configura los archivos estáticos
