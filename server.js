@@ -17,7 +17,6 @@ const subcategoryRouter = require('./routes/subcategory'); // Importa el router 
 
 
 
-
 // Importa los modelos aquí
 const User = require('./models/User');
 const Dish = require('./models/Dish');
