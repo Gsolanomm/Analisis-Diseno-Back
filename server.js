@@ -14,8 +14,6 @@ const adminRoutes = require('./routes/admin');  // Importa el archivo admin.js
 const categoryRoutes = require('./routes/Category'); // Importa las rutas de categoría
 const subcategoryRouter = require('./routes/subcategory'); // Importa el router de subcategorías
 
-const cors = require('cors');
-
 
 
 
