@@ -59,9 +59,12 @@ app.use('/categories', categoryRoutes);
 app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
 
 
-// Importa y configura la nueva ruta para listar el menú
-const menuRoutes = require('./routes/menuRoutes'); // Importa el archivo de rutas del menú
-app.use('/menu', menuRoutes); // Monta las rutas de menú
+
+const menuRoutes = require('./routes/menuRoutes'); 
+app.use('/menu', menuRoutes); 
+
+const notice = require('./routes/notices'); 
+app.use('/notices', notice); 
 
 // Sincronización de la base de datos
 const syncDatabase = async () => {
