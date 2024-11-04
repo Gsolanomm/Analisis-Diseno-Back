@@ -19,7 +19,7 @@ router.get('/:idDish', async (req, res) => {
         const recipes = await Recipe.findOne({ where: { idDish } })
         res.json(recipes);
     } catch (error) {
-        res.status(500).json({ error: 'Error al listar las recetas' });
+        res.status(500).json({ error: 'Error al listar la receta' });
     }
 });
 
