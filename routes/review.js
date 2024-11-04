@@ -12,6 +12,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+//
+router.get('/:idDish', async (req, res) => {
+    try {
+        const { idDish } = req.params;
+        const reviews = await Review.findAll({ where: { idDish } })
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al listar las resenas' });
+    }
+});
+
 // Agregar resenas
 router.post('/', async (req, res) => {
     const { rating, comment, anonimus, idUser, idDish } = req.body;
