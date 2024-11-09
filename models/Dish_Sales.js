@@ -1,28 +1,30 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db');
-const Dish = require('./Dish');
+const { DataTypes } = require('sequelize'); 
+const sequelize = require('../db'); 
+const Dish = require('./Dish'); 
 const Sales = require('./Sales');
 
 // Tabla DishSales
-const Dish_Sales = sequelize.define('Dish_Sales', {
+const Dish_Sales = sequelize.define('Dish_Sales', { 
     idDish: { 
         type: DataTypes.INTEGER, 
         references: { model: Dish, key: 'idDish' },
-        primaryKey: true
+        primaryKey: true 
     },
     idSales: { 
         type: DataTypes.INTEGER, 
         references: { model: Sales, key: 'idSales' },
-        primaryKey: true
+        primaryKey: true 
     },
-    cantidad: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 } // Cantidad de platillos
+    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 }, // Quantity of dishes
+    note: { type: DataTypes.STRING }, // Additional notes for the dish in the sale
+    account: { type: DataTypes.INTEGER, allowNull: false } // Account identifier
 });
 
-// Definimos las relaciones
-Dish.hasMany(Dish_Sales, { foreignKey: 'idDish' });
+// Define relationships
+Dish.hasMany(Dish_Sales, { foreignKey: 'idDish' }); 
 Dish_Sales.belongsTo(Dish, { foreignKey: 'idDish' });
 
-Sales.hasMany(Dish_Sales, { foreignKey: 'idSales' });
+Sales.hasMany(Dish_Sales, { foreignKey: 'idSales' }); 
 Dish_Sales.belongsTo(Sales, { foreignKey: 'idSales' });
 
 module.exports = Dish_Sales;
