@@ -45,11 +45,12 @@ router.get('/list', async (req, res) => {
 
 router.post('/add', upload.single('image'), async (req, res) => {
     let { name, creationDate, description, price } = req.body;
-    const validNameDescription = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+    const validNameDescription = /^[a-zA-Z0-9\s\.,\-!@#\$%\^&\*\(\)\[\]{}<>:;'"`~]+$/;
     name = name.trimEnd();
     description = description.trimEnd();
+
     if (!validNameDescription.test(name) || !validNameDescription.test(description)) {
-        return res.status(400).json({ error: "El nombre y la descripción solo pueden contener letras y números, sin símbolos o espacios al inicio." });
+        return res.status(400).json({ error: "El nombre y la descripción contienen caracteres no permitidos." });
     }
 
     try {
@@ -72,12 +73,12 @@ router.post('/add', upload.single('image'), async (req, res) => {
 router.put('/update/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
     let { name, description, price } = req.body;
-    const validNameDescription = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+    const validNameDescription = /^[a-zA-Z0-9\s\.,\-!@#\$%\^&\*\(\)\[\]{}<>:;'"`~]+$/;
     name = name.trimEnd();
     description = description.trimEnd();
 
     if (!validNameDescription.test(name) || !validNameDescription.test(description)) {
-        return res.status(400).json({ error: "El nombre y la descripción solo pueden contener letras y números, sin símbolos o espacios al inicio." });
+        return res.status(400).json({ error: "El nombre y la descripción contienen caracteres no permitidos." });
     }
 
     try {
