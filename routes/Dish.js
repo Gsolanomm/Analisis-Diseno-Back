@@ -30,7 +30,6 @@ router.get('/list', async (req, res) => {
         // Verifica si `idCategory` es un número y crea la condición de búsqueda
         const whereCondition = idCategory ? { idCategory: parseInt(idCategory) } : {};
 
-
         const { count, rows: dishes } = await Dish.findAndCountAll({
             where: whereCondition,
             offset: offset,
@@ -52,12 +51,14 @@ router.get('/list', async (req, res) => {
 
 router.post('/add', upload.single('image'), async (req, res) => {
     let { name, creationDate, description, price, idCategory, idSubCategory } = req.body;
-    const validNameDescription = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+    
+    // Expresión regular actualizada para permitir letras, números, espacios, puntos y comas
+    const validNameDescription = /^[a-zA-Z0-9.,\s]+$/;
     name = name.trimEnd();
     description = description.trimEnd();
     
     if (!validNameDescription.test(name) || !validNameDescription.test(description)) {
-        return res.status(400).json({ error: "Name and description can only contain letters and numbers, with no symbols or leading spaces." });
+        return res.status(400).json({ error: "Name and description can only contain letters, numbers, spaces, periods, and commas." });
     }
 
     try {
@@ -82,12 +83,14 @@ router.post('/add', upload.single('image'), async (req, res) => {
 router.put('/update/:id', upload.single('image'), async (req, res) => {
     const { id } = req.params;
     let { name, description, price, idCategory, idSubCategory } = req.body;
-    const validNameDescription = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+
+    // Expresión regular actualizada para permitir letras, números, espacios, puntos y comas
+    const validNameDescription = /^[a-zA-Z0-9.,\s]+$/;
     name = name.trimEnd();
     description = description.trimEnd();
 
     if (!validNameDescription.test(name) || !validNameDescription.test(description)) {
-        return res.status(400).json({ error: "Name and description can only contain letters and numbers, with no symbols or leading spaces." });
+        return res.status(400).json({ error: "Name and description can only contain letters, numbers, spaces, periods, and commas." });
     }
 
     try {
