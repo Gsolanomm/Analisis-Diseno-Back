@@ -1,6 +1,6 @@
 // routes/auth.js
-// routes/auth.js
 const express = require('express');
+const { Op } = require('sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const multer = require('multer');
@@ -133,7 +133,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Obtener datos del usuario autenticado
 router.get('/user', verifyToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.idUser, {
@@ -149,7 +148,6 @@ router.get('/user', verifyToken, async (req, res) => {
   }
 });
 
-// Editar datos del usuario autenticado
 router.put('/user', verifyToken, async (req, res) => {
   const { firstName, lastName, dateOfBirth, email } = req.body;
 
@@ -172,11 +170,9 @@ router.put('/user', verifyToken, async (req, res) => {
   }
 });
 
-// Verificación de rol
 router.get('/verify-role', verifyToken, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.idUser);
-    //verifica si el usuario existe y muestra los datos de este por consola 
     
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
 
@@ -186,6 +182,7 @@ router.get('/verify-role', verifyToken, async (req, res) => {
     res.status(500).json({ error: 'Error al verificar el rol del usuario' });
   }
 });
+
 
 // Nueva ruta para actualizar la contraseña
 router.put('/update-password', verifyToken, async (req, res) => {
@@ -229,6 +226,56 @@ router.get('/profile-image', verifyToken, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error al obtener la imagen de perfil' });
+  }
+});
+
+router.get('/verify-user', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.idUser);
+
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+    res.json({ idUser: user.idUser, role: user.role });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al verificar el usuario' });
+  }
+});
+
+// Ruta con paginación para obtener usuarios
+router.get('/userpag', verifyToken, async (req, res) => {
+  // Parámetros de paginación y búsqueda
+  const { page = 1, limit = 10, search = '' } = req.query;
+  const offset = (parseInt(page) - 1) * parseInt(limit);
+
+  try {
+    // Filtra usuarios con el término de búsqueda en el campo 'name' usando LIKE
+    const users = await User.findAll({
+      where: {
+        firstName: { [Op.like]: `%${search}%` },
+      },
+      limit: parseInt(limit),
+      offset: offset,
+    });
+
+    // Cuenta total de usuarios para el cálculo de páginas
+    const totalUsers = await User.count({
+      where: {
+        firstName: { [Op.like]: `%${search}%` },
+      },
+    });
+
+    const totalPages = Math.ceil(totalUsers / parseInt(limit));
+
+    res.json({
+      users,
+      totalPages,
+      currentPage: parseInt(page),
+      totalUsers,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al recuperar los usuarios' });
   }
 });
 
