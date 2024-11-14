@@ -1,37 +1,23 @@
 const express = require('express');
-const Reservation = require('../models/Reservation'); // Importar el modelo de Reservation
-const User = require('../models/User'); // Importar el modelo de User
+const Reservation = require('../models/Reservation'); 
+const User = require('../models/User');
 const router = express.Router();
-
-// Validaciones
-
-// Validar nombre (solo letras, puntos y comas)
 const validateName = (name) => /^[a-zA-Z\s\.,áéíóúÁÉÍÓÚñÑ]+$/.test(name);
-
-// Validar teléfono (solo números y el símbolo de +)
 const validatePhoneNumber = (phone) => /^\+?[0-9]+$/.test(phone);
-
-// Validar cantidad de personas (solo números)
 const validateNumPeople = (num) => /^[0-9]+$/.test(num);
-
-// Validar comentarios (solo letras, números, puntos, comas y paréntesis)
 const validateComment = (comment) => /^[a-zA-Z0-9\s\.,\(\)áéíóúÁÉÍÓÚñÑ]*$/.test(comment);
 
-// Validar fecha de reserva (no puede ser en el pasado)
 const validateReservationDate = (date) => {
     const today = new Date();
     const reservationDate = new Date(date);
     return reservationDate >= today;
 };
-
-// Validación de hora
 const validateTime = (time) => /^([0-9]{1,2}):([0-9]{2}) (AM|PM)$/.test(time);
 
-// Crear una nueva reserva
+// Crear ppp
 router.post('/add', async (req, res) => {
     const { namePerson, phoneNumber, reservationDate, numPeople, comment, idClient, time } = req.body;
 
-    // Validar campos
     if (!validateName(namePerson)) {
         return res.status(400).json({ message: 'El nombre solo puede contener letras, puntos y comas.' });
     }
@@ -59,7 +45,7 @@ router.post('/add', async (req, res) => {
             numPeople,
             comment,
             idClient,
-            reservationTime: time // Cambiar 'time' a 'reservationTime'
+            reservationTime: time 
         });
         res.status(201).json(newReservation);
     } catch (error) {
@@ -73,7 +59,6 @@ router.put('/update/:id', async (req, res) => {
     const { id } = req.params;
     const { namePerson, phoneNumber, reservationDate, numPeople, comment, idClient, time } = req.body;
 
-    // Validar campos
     if (namePerson && !validateName(namePerson)) {
         return res.status(400).json({ message: 'El nombre solo puede contener letras, puntos y comas.' });
     }
@@ -99,7 +84,7 @@ router.put('/update/:id', async (req, res) => {
             return res.status(404).json({ message: 'Reserva no encontrada' });
         }
 
-        // Actualizar la reserva
+        // Actualizar pp
         reservation.namePerson = namePerson || reservation.namePerson;
         reservation.phoneNumber = phoneNumber || reservation.phoneNumber;
         reservation.reservationDate = reservationDate || reservation.reservationDate;
@@ -176,9 +161,5 @@ router.get('/list/:idClient', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener las reservaciones' });
     }
 });
-
-
-
-
 
 module.exports = router;
