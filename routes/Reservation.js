@@ -158,6 +158,27 @@ router.get('/list', async (req, res) => {
     }
 });
 
+// Obtener reservaciones por ID de cliente sin paginación
+router.get('/list/:idClient', async (req, res) => {
+    const { idClient } = req.params;
+
+    try {
+        const reservations = await Reservation.findAll({
+            where: { idClient }
+        });
+
+        res.json({
+            reservations,
+            totalReservations: reservations.length
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener las reservaciones' });
+    }
+});
+
+
+
 
 
 module.exports = router;
