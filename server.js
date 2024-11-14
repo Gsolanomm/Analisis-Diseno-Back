@@ -16,6 +16,7 @@ const subcategoryRouter = require('./routes/subcategory'); // Importa el router 
 const salesRoutes = require('./routes/sales'); // Importa las rutas de ventas
 const tablesRoutes = require('./routes/Tables'); // Importa las rutas de mesas
 const dishRoutes = require('./routes/Dish'); // Importa las rutas de platos
+const raffleRoutes = require('./routes/raffle'); // Importa las rutas de rifa
 
 
 // Importa los modelos aquí
@@ -63,6 +64,7 @@ app.use('/subcategories', subcategoryRouter); // Usa el router de subcategorías
 app.use('/sales', salesRoutes); // Usa el router de ventas
 app.use('/tables', tablesRoutes); // Usa el router de mesas
 app.use('/dish', dishRoutes); // Usa el router de platos
+app.use('/raffle', raffleRoutes); // Usa el router de rifa
 
 
 const notice = require('./routes/notices'); 
