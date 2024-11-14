@@ -1,6 +1,7 @@
 const express = require('express');
 const Review = require('../models/Review');
 const router = express.Router();
+const User = require('../models/User');
 
 // Listar resenas
 router.get('/', async (req, res) => {
@@ -16,8 +17,19 @@ router.get('/', async (req, res) => {
 router.get('/:idDish', async (req, res) => {
     try {
         const { idDish } = req.params;
-        const reviews = await Review.findAll({ where: { idDish } })
-        res.json(reviews);
+        const reviews = await Review.findAll({ 
+            include: [{
+                model: User,
+                attributes:['firstName','lastName']
+            }], 
+            where: { idDish } 
+        })
+        res.json(reviews.map(review => {
+            if(review.dataValues.anonimus) {
+                review.dataValues.User = null;
+            }
+            return review;
+        }));
     } catch (error) {
         res.status(500).json({ error: 'Error al listar las resenas' });
     }
@@ -27,6 +39,13 @@ router.get('/:idDish', async (req, res) => {
 router.post('/', async (req, res) => {
     const { rating, comment, anonimus, idUser, idDish } = req.body;
     const commentDate = new Date();
+    const reviews = await Review.findAll( { where:{ idUser, idDish } });
+
+    if(reviews.length > 0) {
+        res.status(400).json({ error: 'El usuario ya tiene una reseña realizada!' });
+        return;
+    }
+
     try {
         const newReview = await Review.create({ rating, comment, commentDate, anonimus, idUser, idDish });
         res.status(201).json({ message: 'Resena añadida', review: newReview });
