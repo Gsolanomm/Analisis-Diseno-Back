@@ -5,8 +5,9 @@ const Dish = require('./Dish');
 const Recipe = sequelize.define('Recipe', {
     idRecipe: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     instructions: { type: DataTypes.TEXT, allowNull: false },
-    idDish: { 
-        type: DataTypes.INTEGER, 
+    ingredients: { type: DataTypes.TEXT, allowNull: false },
+    idDish: {
+        type: DataTypes.INTEGER,
         references: { model: Dish, key: 'idDish' },
         onDelete: 'CASCADE'
     }
