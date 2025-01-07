@@ -17,6 +17,13 @@ const salesRoutes = require('./routes/sales'); // Importa las rutas de ventas
 const tablesRoutes = require('./routes/Tables'); // Importa las rutas de mesas
 const dishRoutes = require('./routes/Dish'); // Importa las rutas de platos
 const NotificationRoutes = require('./routes/Notifications'); // Importa las rutas de notificaciones
+const notice = require('./routes/notices'); // Importa las rutas de notificaciones
+const raffle = require('./routes/raffle'); // Importa las rutas de sorteos
+const recipe = require('./routes/Recipe'); // Importa las rutas de recetas
+const review = require('./routes/Review'); // Importa las rutas de reseñas
+const menu = require('./routes/menuRoutes'); // Importa las rutas de menús
+const reservation = require('./routes/Reservation'); // Importa las rutas de reservaciones
+
 
 // Importa los modelos aquí
 const User = require('./models/User');
@@ -65,10 +72,13 @@ app.use('/sales', salesRoutes); // Usa el router de ventas
 app.use('/tables', tablesRoutes); // Usa el router de mesas
 app.use('/dish', dishRoutes); // Usa el router de platos
 app.use('/notifications', NotificationRoutes); // Configura las rutas de notificaciones
+app.use('/notices', notice); // Configura las rutas de notificaciones
+app.use('/raffle', raffle); // Configura las rutas de sorteos
+app.use('/recipes', recipe); // Configura las rutas de recetas
+app.use('/reviews', review); // Configura las rutas de reseñas
+app.use('/menu', menu); // Configura las rutas de menús
+app.use('/reservations', reservation); // Configura las rutas de reservaciones
 
-
-const notice = require('./routes/notices'); 
-app.use('/notices', notice); 
 
 // Sincronización de la base de datos
 const syncDatabase = async () => {
